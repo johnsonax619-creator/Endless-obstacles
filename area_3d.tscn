@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://kclktsdx3fm"]
+
+[ext_resource type="PackedScene" uid="uid://betlcg7qi4544" path="res://Scenes/area_3d.tscn" id="1_ti8w2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_t1ekm"]
+size = Vector3(2.1964111, 1, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rj7n6"]
+size = Vector3(2.3739014, 1, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_6uf78"]
+size = Vector3(2.386, 1, 0.934)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5tmek"]
+size = Vector3(2.256, 1, 0.947)
+
+[node name="2" instance=ExtResource("1_ti8w2")]
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_t1ekm")
+
+[node name="CollisionShape3D2" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.821542, 0, 0)
+shape = SubResource("BoxShape3D_rj7n6")
+
+[node name="MeshInstance3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.835051, 0, 0)
+mesh = SubResource("BoxMesh_6uf78")
+
+[node name="MeshInstance3D2" parent="." index="3"]
+mesh = SubResource("BoxMesh_5tmek")

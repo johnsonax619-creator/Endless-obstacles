@@ -1,0 +1,99 @@
+[gd_scene load_steps=16 format=3 uid="uid://dubjnww0ncy62"]
+
+[ext_resource type="Texture2D" uid="uid://dr5fkphodune0" path="res://Assets/textures/Gray_prototype_textures.png" id="1_f3sb7"]
+[ext_resource type="Script" uid="uid://dr34obs5idvst" path="res://world.gd" id="1_pkg7o"]
+[ext_resource type="Script" uid="uid://crosp7nbc4848" path="res://player.gd" id="2_tlwt5"]
+[ext_resource type="Texture2D" uid="uid://bxvjkwt22oh61" path="res://icon.svg" id="3_aqk2v"]
+[ext_resource type="Script" uid="uid://c0jc3ey20vjvv" path="res://obstcle_spawner.gd" id="4_036b0"]
+[ext_resource type="PackedScene" uid="uid://betlcg7qi4544" path="res://Scenes/area_3d.tscn" id="5_dwbse"]
+[ext_resource type="PackedScene" uid="uid://kclktsdx3fm" path="res://area_3d.tscn" id="6_dwbse"]
+[ext_resource type="PackedScene" uid="uid://bs34pxjepgq3r" path="res://Scenes/8.tscn" id="8_gbfbk"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fj7yv"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+energy_multiplier = 1.5
+
+[sub_resource type="Sky" id="Sky_tlwt5"]
+sky_material = SubResource("ProceduralSkyMaterial_fj7yv")
+
+[sub_resource type="Environment" id="Environment_aqk2v"]
+background_mode = 2
+sky = SubResource("Sky_tlwt5")
+tonemap_mode = 2
+ssao_enabled = true
+sdfgi_enabled = true
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_036b0"]
+albedo_color = Color(0.49411765, 1, 1, 1)
+albedo_texture = ExtResource("1_f3sb7")
+albedo_texture_force_srgb = true
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_dwbse"]
+size = Vector3(10, 1, 500)
+
+[sub_resource type="BoxMesh" id="BoxMesh_pkg7o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gbfbk"]
+
+[node name="world" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.10821664, -0.9322252)
+script = ExtResource("1_pkg7o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 9.836975, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_aqk2v")
+
+[node name="CSGMesh3D" type="CSGMesh3D" parent="."]
+material_override = SubResource("StandardMaterial3D_036b0")
+use_collision = true
+mesh = SubResource("BoxMesh_dwbse")
+
+[node name="player" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.06869531, 0)
+script = ExtResource("2_tlwt5")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0694867, 0)
+mesh = SubResource("BoxMesh_pkg7o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0739584, 0)
+shape = SubResource("BoxShape3D_gbfbk")
+
+[node name="Camera3D" type="Camera3D" parent="player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2518139, 2.9313047, 3.3360128)
+top_level = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2(23, 844)
+scale = Vector2(2.0703125, 2.5078125)
+texture_normal = ExtResource("3_aqk2v")
+passby_press = true
+action = "ui_left"
+
+[node name="TouchScreenButton3" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2(2304, 869)
+scale = Vector2(2.0703125, 2.5078125)
+texture_normal = ExtResource("3_aqk2v")
+passby_press = true
+action = "ui_accept"
+
+[node name="TouchScreenButton2" type="TouchScreenButton" parent="CanvasLayer"]
+position = Vector2(443.00003, 859.00006)
+scale = Vector2(2.2109375, 2.3828123)
+texture_normal = ExtResource("3_aqk2v")
+passby_press = true
+action = "ui_right"
+
+[node name="Obstacle spawner" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.009225547, 1.1599357, -7.500066)
+script = ExtResource("4_036b0")
+obstacle_scenes = Array[PackedScene]([ExtResource("5_dwbse"), ExtResource("6_dwbse"), ExtResource("5_dwbse"), ExtResource("8_gbfbk")])
